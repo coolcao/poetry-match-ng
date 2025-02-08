@@ -1,0 +1,110 @@
+<div
+  class="flex h-full min-h-screen w-full flex-col items-center justify-center bg-gray-200 dark:bg-gray-800"
+>
+  <div
+    class="flex w-full items-center justify-center text-2xl text-gray-800 sm:w-full md:w-full lg:w-full lg:text-4xl xl:w-4/5 dark:text-gray-200"
+  >
+    古诗翻翻看
+  </div>
+  <div
+    class="mt-5 flex h-full w-full flex-wrap items-center justify-center sm:w-full md:w-full lg:w-full xl:w-4/5"
+  >
+    <div
+      class="flex h-[720px] w-full items-center justify-center px-5 py-5 md:w-9/10 xl:w-3/5"
+    >
+      <div
+        class="flex h-full w-full flex-col items-center justify-center rounded-md border border-solid border-gray-300 bg-stone-50 dark:border-gray-500 dark:bg-gray-600"
+      >
+        <div class="my-3 flex w-full items-center justify-center">
+          <div class="-mt-10 mb-10 text-base text-gray-800 dark:text-gray-200">
+            步数：{{ steps }}
+          </div>
+        </div>
+        @if (poetry()) {
+          <div class="grid grid-cols-5 gap-1 select-none md:gap-2">
+            @for (cell of cells(); track $index; let idx = $index) {
+              <div
+                (click)="clickCell(idx)"
+                [ngClass]="{
+                  'cursor-pointer': !cell.isPinned,
+                  'cursor-default': cell.isPinned,
+                  'p-3 text-3xl md:text-5xl lg:text-7xl': cell.isOpened,
+                }"
+                class="flex cursor-pointer items-center justify-center"
+              >
+                @if (cell.isOpened) {
+                  <div
+                    class="text-gray-600 dark:text-gray-200"
+                    [ngClass]="{
+                      'cursor-default text-green-600 dark:text-green-500':
+                        cell.isPinned,
+                    }"
+                  >
+                    {{ cell.character }}
+                  </div>
+                } @else {
+                  <div class="text-6xl md:text-7xl lg:text-7xl">⚪️</div>
+                }
+              </div>
+            }
+          </div>
+        } @else {
+          <div class="w-full px-2 py-5 text-2xl md:px-5 xl:px-10">
+            请选择一首诗词
+          </div>
+        }
+      </div>
+    </div>
+    <div
+      class="flex h-[720px] w-full items-center justify-center px-5 py-5 md:w-9/10 xl:w-2/5"
+    >
+      <div
+        class="flex h-full w-full flex-col items-start justify-start rounded-md border border-solid border-gray-300 bg-white dark:border-gray-500 dark:bg-gray-700"
+      >
+        @if (poetry()) {
+          <div
+            class="w-full px-2 py-5 text-4xl text-gray-800 md:px-5 xl:px-10 dark:text-gray-200"
+          >
+            {{ poetry()?.title }}
+          </div>
+          <div
+            class="w-full px-2 py-3 text-base text-gray-600 md:px-5 xl:px-10 dark:text-gray-200"
+          >
+            {{ poetry()?.author }}
+          </div>
+          <div class="h-1 w-full px-2 md:px-5 xl:px-10">
+            <div class="border-b border-solid border-gray-300"></div>
+          </div>
+          @if (paragraphs) {
+            @for (item of paragraphs; track $index) {
+              <div
+                class="mt-2 flex w-full items-center justify-start px-2 text-xl tracking-widest text-gray-800 md:px-5 xl:px-10 dark:text-gray-100"
+              >
+                {{ item }}
+              </div>
+            }
+          }
+          @if (isCompleted()) {
+            <div class="mt-5 px-2 py-3 md:px-5 xl:px-10">
+              <div class="text-2xl text-gray-800 dark:text-gray-100">
+                诗词赏析
+              </div>
+            </div>
+            <div class="h-1 w-full px-2 md:px-5 xl:px-10">
+              <div class="border-b border-solid border-gray-300"></div>
+            </div>
+            <div
+              class="mt-5 flex w-full items-center justify-start px-2 text-base tracking-widest text-gray-800 md:px-5 xl:px-10 dark:text-gray-100"
+            >
+              {{ poetry()?.desc }}
+            </div>
+          }
+        } @else {
+          <div class="w-full px-2 py-5 text-2xl md:px-5 xl:px-10">
+            请选择一首诗词
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>
