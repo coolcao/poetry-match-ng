@@ -17,7 +17,7 @@
       >
         <div class="my-3 flex w-full items-center justify-center">
           <div class="-mt-10 mb-10 text-base text-gray-800 dark:text-gray-200">
-            步数：{{ steps }}
+            步数：{{ steps() }}
           </div>
         </div>
         @if (poetry()) {
@@ -28,7 +28,7 @@
                 [ngClass]="{
                   'cursor-pointer': !cell.isPinned,
                   'cursor-default': cell.isPinned,
-                  'p-3 text-3xl md:text-5xl lg:text-7xl': cell.isOpened,
+                  'p-3 text-3xl md:text-5xl lg:text-5xl': cell.isOpened,
                 }"
                 class="flex cursor-pointer items-center justify-center"
               >
@@ -63,26 +63,35 @@
       >
         @if (poetry()) {
           <div
-            class="w-full px-2 py-5 text-4xl text-gray-800 md:px-5 xl:px-10 dark:text-gray-200"
+            class="flex w-full items-center justify-center px-2 py-5 text-4xl text-gray-800 md:px-5 xl:px-10 dark:text-gray-200"
           >
             {{ poetry()?.title }}
           </div>
           <div
-            class="w-full px-2 py-3 text-base text-gray-600 md:px-5 xl:px-10 dark:text-gray-200"
+            class="flex w-full items-center justify-center px-2 py-3 text-base text-gray-600 md:px-5 xl:px-10 dark:text-gray-200"
           >
             {{ poetry()?.author }}
           </div>
           <div class="h-1 w-full px-2 md:px-5 xl:px-10">
             <div class="border-b border-solid border-gray-300"></div>
           </div>
-          @if (paragraphs) {
-            @for (item of paragraphs; track $index) {
-              <div
-                class="mt-2 flex w-full items-center justify-start px-2 text-xl tracking-widest text-gray-800 md:px-5 xl:px-10 dark:text-gray-100"
-              >
-                {{ item }}
-              </div>
-            }
+          @if (finishedParagraphs) {
+            <div class="mt-2 w-full">
+              @for (item of finishedParagraphs; track $index) {
+                <div
+                  class="mt-1 flex h-[40px] w-full items-center justify-center px-2 text-2xl tracking-widest text-gray-800 md:px-5 xl:px-10 dark:text-gray-100"
+                >
+                  {{ item }}
+                </div>
+                <div
+                  class="flex h-1 w-full items-center justify-center px-2 md:px-5 xl:px-10"
+                >
+                  <div
+                    class="w-[160px] border-b border-solid border-gray-300"
+                  ></div>
+                </div>
+              }
+            </div>
           }
           @if (isCompleted()) {
             <div class="mt-5 px-2 py-3 md:px-5 xl:px-10">

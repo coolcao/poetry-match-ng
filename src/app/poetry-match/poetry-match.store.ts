@@ -10,11 +10,25 @@ export class PoetryMatchStore {
 
   private _poetryName = signal('');
   private _poetryList = signal(getPoetryList());
+  private _steps = signal(0);
+  // 已打开的字符，每完成一句诗就重置一次
+  private _charIdxs: WritableSignal<number[]> = signal([]);
 
   readonly poetryName = this._poetryName.asReadonly();
   readonly poetry = computed(() => {
     return this._poetryList().find(poetry => poetry.title === this.poetryName());
   });
+  readonly steps = this._steps.asReadonly();
+  readonly charIdxs = this._charIdxs.asReadonly();
+
+  // 诗句中每句的句子，按字符排序，用于比较打开的字符是否匹配
+  readonly sortedParagraphs = computed(() => {
+    if (this.poetry() && this.poetry()!.paragraphs) {
+      return this.poetry()!.paragraphs.map(p => p.split('').sort().join(''));
+    }
+    return [];
+  });
+
 
   readonly cells: WritableSignal<CharacterCell[]> = linkedSignal(() => {
     if (!this.poetry()) {
@@ -40,6 +54,21 @@ export class PoetryMatchStore {
 
   setPoetryName(name: string) {
     this._poetryName.set(name);
+  }
+
+  increaseSteps() {
+    this._steps.update(v => v + 1);
+  }
+
+  resetSteps() {
+    this._steps.set(0);
+  }
+
+  updateCharIdxs(idxs: number[]) {
+    this._charIdxs.set([...idxs]);
+  }
+  addCharIdx(idx: number) {
+    this._charIdxs.update(v => [...v, idx]);
   }
 
 
