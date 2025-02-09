@@ -4,11 +4,13 @@ import { FormsModule } from '@angular/forms';
 
 import { PoetryMatchRoutingModule } from './poetry-match-routing.module';
 import { PoetryMatchBoardComponent } from './poetry-match-board/poetry-match-board.component';
+import { PoetryMatchStartPageComponent } from './poetry-start-page/poetry-start-page.component';
 
 
 @NgModule({
   declarations: [
-    PoetryMatchBoardComponent
+    PoetryMatchBoardComponent,
+    PoetryMatchStartPageComponent,
   ],
   imports: [
     CommonModule,

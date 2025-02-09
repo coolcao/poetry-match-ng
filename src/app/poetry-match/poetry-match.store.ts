@@ -20,6 +20,11 @@ export class PoetryMatchStore {
   });
   readonly steps = this._steps.asReadonly();
   readonly charIdxs = this._charIdxs.asReadonly();
+  readonly poetryList = this._poetryList.asReadonly();
+
+  readonly poetryNames = computed(() => {
+    return this._poetryList().map(poetry => poetry.title);
+  });
 
   // 诗句中每句的句子，按字符排序，用于比较打开的字符是否匹配
   readonly sortedParagraphs = computed(() => {
@@ -45,6 +50,16 @@ export class PoetryMatchStore {
     }
     return this.cells().every(cell => cell.isPinned);
   });
+
+  loadPoetry(name: string) {
+    this.setPoetryName(name);
+    this.resetSteps();
+    this.updateCharIdxs([]);
+    this.cells().forEach(cell => {
+      cell.isOpened = false;
+      cell.isPinned = false;
+    });
+  }
 
   updateCell(idx: number, cell: CharacterCell) {
     const cells = [...this.cells()];

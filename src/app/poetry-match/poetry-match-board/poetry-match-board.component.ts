@@ -3,6 +3,7 @@ import { timer } from 'rxjs';
 
 import { PoetryMatchStore } from '../poetry-match.store';
 import { CharacterCell, PoetryType } from '../poetry-match.types';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-poetry-match-board',
@@ -16,6 +17,8 @@ export class PoetryMatchBoardComponent implements OnInit {
   PoetryType = PoetryType;
 
   store = inject(PoetryMatchStore);
+  route = inject(ActivatedRoute);
+  router = inject(Router);
 
   poetry = this.store.poetry;
   cells = this.store.cells;
@@ -26,11 +29,18 @@ export class PoetryMatchBoardComponent implements OnInit {
   // 已打开的字符
   charIdxs = this.store.charIdxs;
   sortedParagraphs = this.store.sortedParagraphs;
+  poetryNames = this.store.poetryNames;
 
   finishedParagraphs: string[] = [];
 
   ngOnInit(): void {
-    this.store.setPoetryName('静夜思');
+    const poetryName = this.route.snapshot.queryParams['poetryName'];
+    if (!this.poetryNames().includes(poetryName)) {
+      console.log('当前诗词暂不支持，请选择其他诗词');
+      this.router.navigate(['poetry-match', 'start']);
+      return;
+    }
+    this.store.loadPoetry(poetryName);
     this.finishedParagraphs = this.sortedParagraphs().map(() => '');
   }
 
