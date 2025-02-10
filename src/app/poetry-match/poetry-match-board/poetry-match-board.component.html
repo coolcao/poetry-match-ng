@@ -13,7 +13,7 @@
       class="flex h-[720px] w-full items-center justify-center px-5 py-5 md:w-9/10 xl:w-3/5"
     >
       <div
-        class="flex h-full w-full flex-col items-center justify-center rounded-md border border-solid border-gray-300 bg-stone-50 dark:border-gray-500 dark:bg-gray-600"
+        class="flex h-full w-full flex-col items-center justify-center rounded-md border border-solid border-gray-100 bg-stone-50 dark:border-gray-500 dark:bg-gray-600"
       >
         <div class="my-3 flex w-full items-center justify-center">
           <div class="-mt-10 mb-10 text-base text-gray-800 dark:text-gray-200">
@@ -34,16 +34,30 @@
               >
                 @if (cell.isOpened) {
                   <div
-                    class="text-gray-600 dark:text-gray-200"
+                    class="font-serif"
                     [ngClass]="{
-                      'cursor-default text-green-600 dark:text-green-500':
+                      'cursor-default text-teal-300 dark:text-teal-400':
                         cell.isPinned,
+                      'text-gray-800 dark:text-gray-300': !cell.isPinned,
                     }"
                   >
                     {{ cell.character }}
                   </div>
                 } @else {
-                  <div class="text-6xl md:text-7xl lg:text-7xl">⚪️</div>
+                  <!-- 棋子容器 -->
+                  <div
+                    class="relative h-20 w-20 rounded-full border-t-2 border-r-2 border-b-2 border-l-2 border-slate-400 bg-gradient-to-br from-slate-300 to-slate-500 shadow-[0_8px_30px_rgba(0,0,0,0.12)] transition-all hover:scale-105 hover:shadow-lg dark:border-slate-300"
+                  >
+                    <!-- 高光效果 -->
+                    <div
+                      class="absolute top-1 left-1 h-6 w-6 rounded-full bg-gradient-to-br from-white/40 to-transparent mix-blend-soft-light"
+                    ></div>
+
+                    <!-- 反光效果 -->
+                    <div
+                      class="absolute right-2 bottom-2 h-4 w-4 rounded-full bg-gradient-to-br from-white/30 to-transparent mix-blend-soft-light"
+                    ></div>
+                  </div>
                 }
               </div>
             }
@@ -56,7 +70,7 @@
       </div>
     </div>
     <div
-      class="flex h-[720px] w-full items-center justify-center px-5 py-5 md:w-9/10 xl:w-2/5"
+      class="flex h-[720px] w-full items-center justify-center px-5 py-5 font-serif md:w-9/10 xl:w-2/5"
     >
       <div
         class="flex h-full w-full flex-col items-start justify-start rounded-md border border-solid border-gray-300 bg-white dark:border-gray-500 dark:bg-gray-700"
