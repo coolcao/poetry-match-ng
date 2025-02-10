@@ -75,7 +75,7 @@
 
 <div
   *ngIf="showHelp"
-  class="absolute top-0 left-0 flex h-full w-full items-center justify-center text-gray-200 backdrop-blur-2xl"
+  class="fixed top-0 left-0 z-50 flex h-full w-full items-center justify-center text-gray-200 backdrop-blur-2xl"
 >
   <button
     class="absolute top-5 right-5 cursor-pointer text-gray-800 dark:text-gray-200"
@@ -84,7 +84,7 @@
     关闭
   </button>
   <div
-    class="my-2 flex max-h-[500px] min-h-[340px] w-full max-w-[680px] min-w-[460px] flex-col items-start justify-start rounded-2xl bg-gray-300 p-10 dark:bg-gray-600"
+    class="mx-2 my-2 flex max-h-[500px] min-h-[340px] w-full max-w-[680px] min-w-[360px] flex-col items-start justify-start rounded-2xl bg-gray-300 p-10 dark:bg-gray-600"
   >
     <div class="text-3xl text-gray-800 dark:text-gray-100">游戏玩法：</div>
     <ul class="mt-5 list-decimal pl-5 text-xl text-gray-800 dark:text-gray-100">
