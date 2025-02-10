@@ -22,7 +22,7 @@ export class PoetryMatchStartPageComponent implements OnInit {
   }
 
   startGame(poetryName: string) {
-    this.router.navigate(['poetry-match', 'board'], { queryParams: { poetryName } });
+    this.router.navigate(['board'], { queryParams: { poetryName } });
   }
 
 }
