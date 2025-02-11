@@ -12,4 +12,4 @@
 
 ## 截图
 
-![](https://s2.loli.net/2025/02/09/iZqLX4nM8KxwNoA.png)
+![](https://s2.loli.net/2025/02/10/GIWF3ZlEkNT1xtg.gif)
