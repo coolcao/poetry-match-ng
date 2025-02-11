@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, Signal } from '@angular/core';
+import { Component, computed, effect, inject, linkedSignal, OnInit, signal, Signal } from '@angular/core';
 import { timer } from 'rxjs';
 
 import { PoetryMatchStore } from '../poetry-match.store';
@@ -32,6 +32,19 @@ export class PoetryMatchBoardComponent implements OnInit {
   poetryNames = this.store.poetryNames;
 
   finishedParagraphs: string[] = [];
+
+  showSuccess = signal(false);
+
+  constructor() {
+    effect(() => {
+      if (this.isCompleted()) {
+        this.showSuccess.set(true);
+        timer(3000).subscribe(() => {
+          this.showSuccess.set(false);
+        });
+      }
+    });
+  }
 
   ngOnInit(): void {
     const poetryName = this.route.snapshot.queryParams['poetryName'];
