@@ -1,99 +1,131 @@
 <div
-  class="flex h-full min-h-screen w-full flex-col items-center justify-center bg-gray-200 dark:bg-gray-800"
+  class="flex h-full min-h-screen w-full flex-col items-center justify-center bg-gradient-to-br from-stone-50 to-cyan-50 dark:from-gray-900 dark:to-gray-800"
 >
-  <div
-    class="my-5 flex w-full items-center justify-center text-2xl text-gray-800 sm:w-full md:w-full lg:w-full lg:text-4xl xl:w-4/5 dark:text-gray-200"
+  <!-- 标题部分 -->
+  <h1
+    class="font-chinese my-5 flex items-center space-x-4 bg-gradient-to-r from-cyan-600 to-emerald-600 bg-clip-text text-4xl text-transparent dark:from-cyan-400 dark:to-emerald-400"
   >
-    <div>古诗翻翻看</div>
-    <div class="cursor-help" (click)="showHelp = true">
-      <img class="block dark:hidden" src="assets/icon/help.day.svg" />
-      <img class="hidden dark:block" src="assets/icon/help.night.svg" />
+    <div class="flex flex-col">
+      <span style="letter-spacing: 0.1em">古诗翻翻看</span>
+      <div class="h-1 w-20 bg-gradient-to-r from-cyan-400 to-emerald-400"></div>
     </div>
-  </div>
+    <div class="cursor-help" (click)="showHelp = true">
+      <svg
+        class="h-8 w-8 text-cyan-600 dark:text-cyan-300"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+        />
+      </svg>
+    </div>
+  </h1>
 
-  <!-- <div
-    class="mt-5 flex h-full w-full flex-wrap items-center justify-center gap-5 sm:w-full md:w-full lg:w-full xl:w-4/5"
+  <!-- 诗词列表 -->
+  <div
+    class="mb-10 grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6 lg:grid-cols-3 xl:grid-cols-4"
   >
     @for (p of poetryList(); track $index) {
       <div
         (click)="startGame(p.title)"
-        class="flex max-h-[300px] min-h-[240px] max-w-[480px] min-w-[360px] transform cursor-pointer flex-col items-center justify-center rounded-xl border border-solid border-gray-300 bg-gray-50 transition duration-200 hover:scale-105 hover:shadow-xl dark:border-gray-600 dark:bg-gray-700"
+        class="glass-panel transform cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-[0_8px_32px_rgba(0,0,0,0.15)]"
       >
-        <div
-          class="flex w-full items-center justify-center text-2xl text-gray-700 dark:text-gray-300"
-        >
-          {{ p.title }}
-        </div>
-        <div
-          class="flex w-full items-center justify-center text-sm text-gray-600 dark:text-gray-300"
-        >
-          {{ p.author }}
-        </div>
-        <div
-          class="my-2 flex w-full flex-col items-center justify-center text-base text-gray-500 dark:text-gray-400"
-        >
-          @for (item of p.paragraphs; track $index) {
-            <div class="mt-1 flex w-full items-center justify-center text-xl">
-              {{ item }}
-            </div>
-          }
-        </div>
-      </div>
-    }
-  </div> -->
-  <div
-    class="mb-10 grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6 lg:grid-cols-3"
-  >
-    @for (p of poetryList(); track $index) {
-      <div
-        (click)="startGame(p.title)"
-        class="flex max-h-[300px] min-h-[240px] max-w-[480px] min-w-[360px] transform cursor-pointer flex-col items-center justify-center rounded-xl border border-solid border-gray-300 bg-gray-50 transition duration-200 hover:scale-105 hover:shadow-xl dark:border-gray-600 dark:bg-gray-700"
-      >
-        <div
-          class="flex w-full items-center justify-center text-2xl text-gray-700 dark:text-gray-300"
-        >
-          {{ p.title }}
-        </div>
-        <div
-          class="flex w-full items-center justify-center text-sm text-gray-600 dark:text-gray-300"
-        >
-          {{ p.author }}
-        </div>
-        <div
-          class="my-2 flex w-full flex-col items-center justify-center text-base text-gray-500 dark:text-gray-400"
-        >
-          @for (item of p.paragraphs; track $index) {
-            <div class="mt-1 flex w-full items-center justify-center text-xl">
-              {{ item }}
-            </div>
-          }
+        <div class="p-6">
+          <h2
+            class="font-chinese bg-gradient-to-r from-cyan-600 to-emerald-600 bg-clip-text text-2xl text-transparent dark:from-cyan-400 dark:to-emerald-400"
+          >
+            {{ p.title }}
+          </h2>
+          <p class="mt-2 text-sm text-emerald-600 dark:text-emerald-400">
+            {{ p.author }}
+          </p>
+          <div
+            class="my-4 h-px bg-gradient-to-r from-cyan-200/50 to-emerald-200/50"
+          ></div>
+          <div class="space-y-2 text-cyan-800 dark:text-cyan-200">
+            @for (item of p.paragraphs; track $index) {
+              <div class="font-chinese text-lg leading-relaxed">{{ item }}</div>
+            }
+          </div>
         </div>
       </div>
     }
   </div>
-</div>
 
-<div
-  *ngIf="showHelp"
-  class="fixed top-0 left-0 z-50 flex h-full w-full items-center justify-center text-gray-200 backdrop-blur-2xl"
->
-  <button
-    class="absolute top-5 right-5 cursor-pointer text-gray-800 dark:text-gray-200"
-    (click)="showHelp = false"
-  >
-    关闭
-  </button>
-  <div
-    class="mx-2 my-2 flex max-h-[500px] min-h-[340px] w-full max-w-[680px] min-w-[360px] flex-col items-start justify-start rounded-2xl bg-gray-300 p-10 dark:bg-gray-600"
-  >
-    <div class="text-3xl text-gray-800 dark:text-gray-100">游戏玩法：</div>
-    <ul class="mt-5 list-decimal pl-5 text-xl text-gray-800 dark:text-gray-100">
-      <li class="mt-3">选择一首古诗，进入游戏页面</li>
-      <li class="mt-3">
-        点击左侧棋盘，打开棋子，当打开的棋子能够组成诗中的诗句时，完成诗句的配对。
-      </li>
-      <li class="mt-3">如果点开的棋子不能组成诗句，棋子会自动关闭。</li>
-      <li class="mt-3">当所有诗句都完成配对时，游戏完成。</li>
-    </ul>
-  </div>
+  <!-- 帮助弹窗 -->
+  @if (showHelp) {
+    <div
+      class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-xl"
+    >
+      <div class="glass-panel relative max-h-[500px] w-full max-w-2xl p-8">
+        <button
+          class="absolute top-6 right-6 cursor-pointer text-cyan-600 hover:text-emerald-600 dark:text-cyan-300"
+          (click)="showHelp = false"
+        >
+          <svg
+            class="h-6 w-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+        <h3
+          class="font-chinese bg-gradient-to-r from-cyan-600 to-emerald-600 bg-clip-text text-3xl text-transparent dark:from-cyan-400 dark:to-emerald-400"
+        >
+          游戏玩法
+        </h3>
+        <div
+          class="mt-6 h-px bg-gradient-to-r from-cyan-200/50 to-emerald-200/50"
+        ></div>
+        <ul class="mt-6 space-y-4 text-cyan-800 dark:text-cyan-200">
+          <li class="flex items-start">
+            <div
+              class="mr-3 h-6 w-6 rounded-full bg-cyan-100/50 text-center font-bold text-cyan-600"
+            >
+              1
+            </div>
+            <p>选择一首古诗，进入游戏页面</p>
+          </li>
+          <li class="flex items-start">
+            <div
+              class="mr-3 h-6 w-6 rounded-full bg-cyan-100/50 text-center font-bold text-cyan-600"
+            >
+              2
+            </div>
+            <p>
+              点击左侧棋盘，打开棋子，当打开的棋子能够组成诗中的诗句时，完成诗句的配对。
+            </p>
+          </li>
+          <li class="flex items-start">
+            <div
+              class="mr-3 h-6 w-6 rounded-full bg-cyan-100/50 text-center font-bold text-cyan-600"
+            >
+              3
+            </div>
+            <p>如果点开的棋子不能组成诗句，棋子会自动关闭。</p>
+          </li>
+          <li class="flex items-start">
+            <div
+              class="mr-3 h-6 w-6 rounded-full bg-cyan-100/50 text-center font-bold text-cyan-600"
+            >
+              4
+            </div>
+            <p>当所有诗句都完成配对时，游戏完成。</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  }
 </div>

@@ -1,10 +1,33 @@
 <div
-  class="flex h-full min-h-screen w-full flex-col items-center justify-center bg-gray-200 dark:bg-gray-800"
+  class="flex h-full min-h-screen w-full flex-col items-center justify-center bg-gradient-to-br from-stone-50 to-cyan-50 dark:from-gray-900 dark:to-gray-800"
 >
-  <div
-    class="flex w-full items-center justify-center text-2xl text-gray-800 sm:w-full md:w-full lg:w-full lg:text-4xl xl:w-4/5 dark:text-gray-200"
+  <h1
+    class="font-chinese bg-gradient-to-r from-cyan-600 to-emerald-600 bg-clip-text text-4xl text-transparent dark:from-cyan-400 dark:to-emerald-400"
   >
     古诗翻翻看
+    <div
+      class="mt-2 h-1 w-20 bg-gradient-to-r from-cyan-400 to-emerald-400"
+    ></div>
+  </h1>
+  <div
+    class="mt-4 flex items-center rounded-full bg-white/80 px-4 py-2 shadow-sm dark:bg-gray-700/80"
+  >
+    <svg
+      class="mr-2 h-5 w-5 text-cyan-500"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+      />
+    </svg>
+    <span class="font-mono text-gray-600 dark:text-gray-200">{{
+      steps()
+    }}</span>
   </div>
   <div
     class="mt-5 flex h-full w-full flex-wrap items-center justify-center sm:w-full md:w-full lg:w-full xl:w-4/5"
@@ -13,13 +36,8 @@
       class="flex h-[720px] w-full items-center justify-center px-5 py-5 md:w-9/10 xl:w-3/5"
     >
       <div
-        class="flex h-full w-full flex-col items-center justify-center rounded-md border border-solid border-gray-100 bg-stone-50 dark:border-gray-500 dark:bg-gray-600"
+        class="flex h-full w-full flex-col items-center justify-center rounded-xl border-2 border-solid border-white/20 bg-gradient-to-br from-white/10 to-white/5 shadow-[0_8px_32px_rgba(0,0,0,0.15)] backdrop-blur-sm dark:from-gray-700/50 dark:to-gray-800/50"
       >
-        <div class="my-3 flex w-full items-center justify-center">
-          <div class="-mt-10 mb-10 text-base text-gray-800 dark:text-gray-200">
-            步数：{{ steps() }}
-          </div>
-        </div>
         @if (poetry()) {
           <div class="grid grid-cols-5 gap-1 select-none md:gap-2">
             @for (cell of cells(); track $index; let idx = $index) {
@@ -28,37 +46,44 @@
                 [ngClass]="{
                   'cursor-pointer': !cell.isPinned,
                   'cursor-default': cell.isPinned,
-                  'p-3 text-3xl md:text-5xl lg:text-5xl': cell.isOpened,
+                  'text-3xl md:text-5xl lg:text-5xl': cell.isOpened,
                 }"
                 class="flex cursor-pointer items-center justify-center"
               >
-                @if (cell.isOpened) {
-                  <div
-                    class="font-serif"
-                    [ngClass]="{
-                      'cursor-default text-teal-300 dark:text-teal-400':
-                        cell.isPinned,
-                      'text-gray-800 dark:text-gray-300': !cell.isPinned,
-                    }"
-                  >
-                    {{ cell.character }}
-                  </div>
-                } @else {
-                  <!-- 棋子容器 -->
-                  <div
-                    class="relative h-20 w-20 rounded-full border-t-2 border-r-2 border-b-2 border-l-2 border-slate-400 bg-gradient-to-br from-slate-300 to-slate-500 shadow-[0_8px_30px_rgba(0,0,0,0.12)] transition-all hover:scale-105 hover:shadow-lg dark:border-slate-300"
-                  >
-                    <!-- 高光效果 -->
+                <div
+                  class="flip-card h-20 w-20"
+                  [class.flipped]="cell.isOpened"
+                >
+                  <div class="flip-front">
                     <div
-                      class="absolute top-1 left-1 h-6 w-6 rounded-full bg-gradient-to-br from-white/40 to-transparent mix-blend-soft-light"
-                    ></div>
-
-                    <!-- 反光效果 -->
-                    <div
-                      class="absolute right-2 bottom-2 h-4 w-4 rounded-full bg-gradient-to-br from-white/30 to-transparent mix-blend-soft-light"
-                    ></div>
+                      class="group relative h-full w-full cursor-pointer rounded-full transition-all duration-300 hover:scale-105"
+                    >
+                      <div
+                        class="absolute inset-0 rounded-full bg-gradient-to-br from-cyan-200/30 to-emerald-200/30 opacity-0 transition-opacity group-hover:opacity-100"
+                      ></div>
+                      <div
+                        class="h-full w-full rounded-full bg-gradient-to-br from-cyan-600 to-cyan-700 shadow-lg dark:from-gray-600 dark:to-gray-700"
+                      >
+                        <div
+                          class="absolute top-2 left-2 h-8 w-8 rounded-full bg-gradient-to-br from-white/10 to-transparent"
+                        ></div>
+                      </div>
+                    </div>
                   </div>
-                }
+                  <div class="flip-back">
+                    <div
+                      class="flex h-full w-full items-center justify-center rounded-full bg-gradient-to-br from-cyan-50 to-white dark:from-gray-600 dark:to-gray-800"
+                    >
+                      <span
+                        [ngClass]="{
+                          'text-cyan-900 dark:text-cyan-600': cell.isPinned,
+                        }"
+                        class="font-chinese text-3xl text-cyan-600 sm:text-4xl dark:text-cyan-300"
+                        >{{ cell.character }}</span
+                      >
+                    </div>
+                  </div>
+                </div>
               </div>
             }
           </div>
@@ -73,43 +98,40 @@
       class="flex h-[720px] w-full items-center justify-center px-5 py-5 font-serif md:w-9/10 xl:w-2/5"
     >
       <div
-        class="flex h-full w-full flex-col items-start justify-start rounded-md border border-solid border-gray-300 bg-white dark:border-gray-500 dark:bg-gray-700"
+        class="flex h-full w-full flex-col items-start justify-start rounded-xl border-2 border-white/20 bg-gradient-to-br from-white/10 to-white/5 p-6 shadow-[0_8px_32px_rgba(0,0,0,0.15)] backdrop-blur-sm dark:from-gray-700/50 dark:to-gray-800/50"
       >
         @if (poetry()) {
-          <div
-            class="flex w-full items-center justify-center px-2 py-5 text-4xl text-gray-800 md:px-5 xl:px-10 dark:text-gray-200"
-          >
-            {{ poetry()?.title }}
-          </div>
-          <div
-            class="flex w-full items-center justify-center px-2 py-3 text-base text-gray-600 md:px-5 xl:px-10 dark:text-gray-200"
-          >
-            {{ poetry()?.author }}
+          <div class="ml-10 flex items-end space-x-2">
+            <h2
+              class="font-chinese bg-gradient-to-r from-cyan-600 to-emerald-600 bg-clip-text text-2xl text-transparent dark:from-cyan-400 dark:to-emerald-400"
+            >
+              {{ poetry()?.title }}
+            </h2>
+            <p class="mt-2 text-sm text-emerald-600 dark:text-emerald-400">
+              {{ poetry()?.author }}
+            </p>
           </div>
           <div class="h-1 w-full px-2 md:px-5 xl:px-10">
-            <div class="border-b border-solid border-gray-300"></div>
+            <div
+              class="border-b border-cyan-200/50 pb-4 dark:border-cyan-400/30"
+            ></div>
           </div>
           @if (finishedParagraphs) {
-            <div class="mt-2 w-full">
+            <div class="mt-5 w-full">
               @for (item of finishedParagraphs; track $index) {
                 <div
-                  class="mt-1 flex h-[40px] w-full items-center justify-center px-2 text-2xl tracking-widest text-gray-800 md:px-5 xl:px-10 dark:text-gray-100"
+                  class="font-chinese poetry-line relative mt-2 mb-0 flex h-10 w-full items-center justify-center text-xl text-cyan-600 sm:text-2xl dark:text-cyan-300"
                 >
                   {{ item }}
-                </div>
-                <div
-                  class="flex h-1 w-full items-center justify-center px-2 md:px-5 xl:px-10"
-                >
-                  <div
-                    class="w-[160px] border-b border-solid border-gray-300"
-                  ></div>
                 </div>
               }
             </div>
           }
           @if (isCompleted()) {
             <div class="mt-5 px-2 py-3 md:px-5 xl:px-10">
-              <div class="text-2xl text-gray-800 dark:text-gray-100">
+              <div
+                class="font-chinese bg-gradient-to-r from-cyan-600 to-emerald-600 bg-clip-text text-2xl text-transparent dark:from-cyan-400 dark:to-emerald-400"
+              >
                 诗词赏析
               </div>
             </div>
@@ -117,9 +139,13 @@
               <div class="border-b border-solid border-gray-300"></div>
             </div>
             <div
-              class="mt-5 flex w-full items-center justify-start px-2 text-base tracking-widest text-gray-800 md:px-5 xl:px-10 dark:text-gray-100"
+              class="mt-5 flex w-full items-center justify-start px-2 text-base tracking-widest md:px-5 xl:px-10"
             >
-              {{ poetry()?.desc }}
+              <span
+                class="font-chinese bg-cyan-600 bg-clip-text text-transparent dark:bg-cyan-400"
+              >
+                {{ poetry()?.desc }}
+              </span>
             </div>
           }
         } @else {
