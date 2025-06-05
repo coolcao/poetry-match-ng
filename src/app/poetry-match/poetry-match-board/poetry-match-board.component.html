@@ -30,10 +30,10 @@
     }}</span>
   </div>
   <div
-    class="mt-5 flex h-full w-full flex-wrap items-center justify-center sm:w-full md:w-full lg:w-full xl:w-4/5"
+    class="mt-0 flex h-full w-full flex-wrap items-center justify-center sm:mt-2 sm:w-full md:mt-5 md:w-full lg:w-full xl:w-4/5"
   >
     <div
-      class="flex h-[720px] w-full items-center justify-center px-5 py-5 md:w-9/10 xl:w-3/5"
+      class="flex h-[350px] w-full items-center justify-center px-3 py-3 sm:h-[450px] sm:px-5 sm:py-5 md:h-[560px] md:w-9/10 md:px-6 md:py-6 lg:w-5/8 xl:w-3/5"
     >
       <div
         class="flex h-full w-full flex-col items-center justify-center rounded-xl border-2 border-solid border-white/20 bg-gradient-to-br from-white/10 to-white/5 shadow-[0_8px_32px_rgba(0,0,0,0.15)] backdrop-blur-sm dark:from-gray-700/50 dark:to-gray-800/50"
@@ -51,7 +51,7 @@
                 class="flex cursor-pointer items-center justify-center"
               >
                 <div
-                  class="flip-card h-20 w-20"
+                  class="flip-card h-14 w-14 sm:h-16 sm:w-16 md:h-20 md:w-20"
                   [class.flipped]="cell.isOpened"
                 >
                   <div class="flip-front">
@@ -72,7 +72,7 @@
                   </div>
                   <div class="flip-back">
                     <div
-                      class="flex h-full w-full items-center justify-center rounded-full bg-gradient-to-br from-cyan-50 to-white dark:from-gray-600 dark:to-gray-800"
+                      class="flex h-full w-full items-center justify-center rounded-full bg-gradient-to-br from-cyan-200 to-cyan-50 dark:from-gray-700 dark:to-gray-800"
                     >
                       <span
                         [ngClass]="{
@@ -95,7 +95,7 @@
       </div>
     </div>
     <div
-      class="flex h-[720px] w-full items-center justify-center px-5 py-5 font-serif md:w-9/10 xl:w-2/5"
+      class="flex h-[350px] w-full items-center justify-center px-3 py-3 font-serif sm:h-[450px] sm:px-5 sm:py-5 md:h-[560px] md:w-9/10 md:px-6 md:py-6 lg:w-3/8 xl:w-2/5"
     >
       <div
         class="flex h-full w-full flex-col items-start justify-start rounded-xl border-2 border-white/20 bg-gradient-to-br from-white/10 to-white/5 p-6 shadow-[0_8px_32px_rgba(0,0,0,0.15)] backdrop-blur-sm dark:from-gray-700/50 dark:to-gray-800/50"
