@@ -14,6 +14,18 @@ export class PoetryMatchStore {
   // 已打开的字符，每完成一句诗就重置一次
   private _charIdxs: WritableSignal<number[]> = signal([]);
 
+  readonly minLen = computed(() => {
+    if (this.poetry()) {
+      return Math.min(...this.poetry()!.paragraphs.map(p => p.length));
+    }
+    return 0;
+  });
+  readonly maxLen = computed(() => {
+    if (this.poetry()) {
+      return Math.max(...this.poetry()!.paragraphs.map(p => p.length));
+    }
+    return 0;
+  });
   readonly poetryName = this._poetryName.asReadonly();
   readonly poetry = computed(() => {
     return this._poetryList().find(poetry => poetry.title === this.poetryName());
@@ -51,8 +63,7 @@ export class PoetryMatchStore {
     return this.cells().every(cell => cell.isPinned);
   });
 
-  loadPoetry(name: string) {
-    this.setPoetryName(name);
+  resetState() {
     this.resetSteps();
     this.updateCharIdxs([]);
     this.cells().forEach(cell => {

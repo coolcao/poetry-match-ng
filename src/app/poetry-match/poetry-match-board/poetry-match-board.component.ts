@@ -1,8 +1,7 @@
-import { Component, computed, effect, inject, linkedSignal, OnInit, signal, Signal } from '@angular/core';
+import { Component, effect, inject, OnInit, signal } from '@angular/core';
 import { timer } from 'rxjs';
 
 import { PoetryMatchStore } from '../poetry-match.store';
-import { CharacterCell, PoetryType } from '../poetry-match.types';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -13,8 +12,6 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrl: './poetry-match-board.component.css'
 })
 export class PoetryMatchBoardComponent implements OnInit {
-
-  PoetryType = PoetryType;
 
   store = inject(PoetryMatchStore);
   route = inject(ActivatedRoute);
@@ -30,6 +27,8 @@ export class PoetryMatchBoardComponent implements OnInit {
   charIdxs = this.store.charIdxs;
   sortedParagraphs = this.store.sortedParagraphs;
   poetryNames = this.store.poetryNames;
+  minLen = this.store.minLen;
+  maxLen = this.store.maxLen;
 
   finishedParagraphs: string[] = [];
 
@@ -53,7 +52,11 @@ export class PoetryMatchBoardComponent implements OnInit {
       this.router.navigate(['poetry-match', 'start']);
       return;
     }
-    this.store.loadPoetry(poetryName);
+    this.store.setPoetryName(poetryName);
+    this.store.resetState();
+    console.log(this.poetry());
+
+
     this.finishedParagraphs = this.sortedParagraphs().map(() => '');
   }
 
@@ -77,33 +80,39 @@ export class PoetryMatchBoardComponent implements OnInit {
     this.store.addCharIdx(idx);
     this.store.updateCell(idx, cell);
 
-    if (this.charIdxs().length == 5) {
-      // 检查是否匹配
-      const cs = this.charIdxs().map(idx => this.cells()[idx].character).sort().join('');
-      console.log('cs: ', cs);
-
-
-      for (let i = 0; i < this.sortedParagraphs().length; i++) {
-        const sortedParagraph = this.sortedParagraphs()[i];
-        console.log('sorted:', sortedParagraph);
-
-        if (cs == sortedParagraph) {
-          this.finishedParagraphs[i] = this.poetry()!.paragraphs[i];
-          for (const idx of this.charIdxs()) {
-            this.cells()[idx].isPinned = true;
-          }
-          this.store.updateCharIdxs([]);
-        } else {
-          timer(1000).subscribe(() => {
-            this.charIdxs().forEach(idx => {
-              this.cells()[idx].isOpened = false;
-            });
-            this.store.updateCharIdxs([]);
-          });
-        }
-      }
+    // 如果打开的字符数在minLen和maxLen之间，检查是否匹配
+    if (this.charIdxs().length < this.minLen() || this.charIdxs().length > this.maxLen()) {
+      return;
     }
 
+
+    // 检查是否匹配
+    const cs = this.charIdxs().map(idx => this.cells()[idx].character).sort().join('');
+
+    for (let i = 0; i < this.sortedParagraphs().length; i++) {
+      const sortedParagraph = this.sortedParagraphs()[i];
+      if (sortedParagraph.length !== cs.length) {
+        continue;
+      }
+
+      if (cs == sortedParagraph) {
+        this.finishedParagraphs[i] = this.poetry()!.paragraphs[i];
+        for (const idx of this.charIdxs()) {
+          this.cells()[idx].isPinned = true;
+        }
+        this.store.updateCharIdxs([]);
+      } else if (this.charIdxs().length >= this.maxLen()) {
+        // 如果长度已达到maxLen，清空已打开的字符
+        timer(1000).subscribe(() => {
+          this.charIdxs().forEach(idx => {
+            this.cells()[idx].isOpened = false;
+          });
+          this.store.updateCharIdxs([]);
+        });
+
+      }
+    }
   }
+
 
 }
